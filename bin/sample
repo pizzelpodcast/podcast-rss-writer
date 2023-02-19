@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative '../lib/podcast_rss_writer'
+
+pizzel = PodcastRss::Podcast.new(
+  title:           'Pizzel Podcast',
+  link:            'https://pizzelpodcast.com/feed.rss',
+  description:     'Un podcast',
+  language:        'es-AR',
+  copyright:       '© 2023 Javier Zacharias & Pedro Fayolle',
+  itunes_author:   'Javier Zacharias & Pedro Fayolle',
+  itunes_owner:    'Pizzel Podcast <hola@pizzelpodcast.com>',
+  itunes_image:    'https://pizzelpodcast.com/feed-image.png',
+  itunes_explicit: false,
+  itunes_category: ['Technology', 'Science', ['Society & Culture', 'Philosophy']],
+  itunes_type:     :episodic,
+
+  #itunes_new_feed_url: 'https://pizzelpodcast.com/feed2.rss',
+  #itunes_block:        true,
+  #itunes_complete:     true,
+
+  episodes:        [
+    {
+      title:           'Apurando al guanaco',
+      description:     '<strong>Nuestro primer episodio ∞</strong>',
+      itunes_duration: 1040,
+      itunes_explicit: false
+    },
+    {
+      title:           'Soylent a Francis Mallmann',
+      description:     '<strong>Nuestro segundo episodio</strong>',
+      itunes_duration: 1020,
+      itunes_explicit: false
+    }
+  ]
+)
+
+puts PodcastRss::Writer.new(pizzel).write
+
+# vim:filetype=ruby:

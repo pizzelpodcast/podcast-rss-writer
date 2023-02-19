@@ -1,0 +1,56 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    concurrent-ruby (1.1.10)
+    date (3.3.3)
+    dry-core (1.0.0)
+      concurrent-ruby (~> 1.0)
+      zeitwerk (~> 2.6)
+    dry-inflector (1.0.0)
+    dry-logic (1.5.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0, < 2)
+      zeitwerk (~> 2.6)
+    dry-struct (1.6.0)
+      dry-core (~> 1.0, < 2)
+      dry-types (>= 1.7, < 2)
+      ice_nine (~> 0.11)
+      zeitwerk (~> 2.6)
+    dry-types (1.7.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0, < 2)
+      dry-inflector (~> 1.0, < 2)
+      dry-logic (>= 1.4, < 2)
+      zeitwerk (~> 2.6)
+    ice_nine (0.11.2)
+    mail (2.8.1)
+      mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
+    mini_mime (1.1.2)
+    net-imap (0.3.4)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.1)
+      timeout
+    net-smtp (0.3.3)
+      net-protocol
+    nokogiri (1.14.0-x86_64-darwin)
+      racc (~> 1.4)
+    racc (1.6.2)
+    timeout (0.3.2)
+    zeitwerk (2.6.6)
+
+PLATFORMS
+  x86_64-darwin-21
+
+DEPENDENCIES
+  dry-struct
+  mail
+  nokogiri
+
+BUNDLED WITH
+   2.3.13
