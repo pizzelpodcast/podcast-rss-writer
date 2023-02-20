@@ -14,13 +14,16 @@ module PodcastRss
     attribute :title,           Types::Coercible::String
     attribute :link,            Types::Coercible::String.optional.default(nil)
     attribute :guid,            Types::Coercible::String.optional.default(nil)
-    attribute :pub_date,        Types::Params::Date.optional.default(nil)
+    attribute :pub_date,        Types::Params::Time.optional.default(nil)
     attribute :description,     Types::Coercible::String.optional.default(nil)
-    attribute :itunes_duration, Types::Coercible::Integer
-    attribute :itunes_explicit, Types::Bool
+    attribute :itunes_duration, Types::Coercible::Integer.optional.default(nil)
+    attribute :itunes_explicit, Types::Bool.optional.default(nil)
     #attribute :itunes_author,   Types::Coercible::String.optional
     #attribute :itunes_subtitle, Types::Coercible::String
-    #attribute :itunes_image,    Types::Coercible::String
+    attribute :itunes_image,    Types::Coercible::String.optional.default(nil)
+    attribute :media_url,       Types::Coercible::String
+    attribute :media_size,      Types::Coercible::Integer
+    attribute :media_type,      Types::Coercible::String.default('audio/mpeg')
   end
 
   class Channel < Dry::Struct
@@ -105,6 +108,16 @@ module PodcastRss
                 xml.link        episode.link
                 xml.guid        episode.guid
                 xml.description { xml.cdata episode.description }
+                # TODO: Needs timezone
+                xml.pubDate     episode.pub_date.strftime('%a, %d %b %Y %T ')
+
+                xml.enclosure url:    episode.media_url,
+                              length: episode.media_size,
+                              type:   episode.media_type
+
+                xml['itunes'].duration episode.itunes_duration if episode.itunes_duration
+                xml['itunes'].explicit episode.itunes_explicit unless episode.itunes_explicit.nil?
+                xml['itunes'].image    href: episode.itunes_image if episode.itunes_image
               end
             end
           end
