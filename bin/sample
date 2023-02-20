@@ -25,13 +25,25 @@ pizzel = PodcastRss::Podcast.new(
       title:           'Apurando al guanaco',
       description:     '<strong>Nuestro primer episodio ∞</strong>',
       itunes_duration: 1040,
-      itunes_explicit: false
+      itunes_explicit: false,
+      media_url:       'https://cdn.pizzelpodcast.com/pizzel-ep1-96kbps.mp3',
+      media_size:      11312038,
+      pub_date:        '2016/04/01',
+      duration:        5400,
+      itunes_image:    'https://cdn.pizzelpodcast.com/pizzel-ep1.jpg',
+      itunes_exclicit: false
     },
     {
       title:           'Soylent a Francis Mallmann',
       description:     '<strong>Nuestro segundo episodio</strong>',
       itunes_duration: 1020,
-      itunes_explicit: false
+      itunes_explicit: false,
+      media_url:       'https://cdn.pizzelpodcast.com/pizzel-ep2-96kbps.mp3',
+      media_size:      12413036,
+      pub_date:        '2016/05/01',
+      duration:        6400,
+      itunes_image:    'https://cdn.pizzelpodcast.com/pizzel-ep2.jpg',
+      itunes_exclicit: false
     }
   ]
 )
