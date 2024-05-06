@@ -11,22 +11,29 @@ module PodcastRss
   end
 
   class Episode < Dry::Struct
-    attribute :title,           Types::Coercible::String
-    attribute :link,            Types::Coercible::String.optional.default(nil)
-    attribute :guid,            Types::Coercible::String.optional.default(nil)
-    attribute :pub_date,        Types::Params::Time.optional.default(nil)
-    attribute :description,     Types::Coercible::String.optional.default(nil)
-    attribute :itunes_duration, Types::Coercible::Integer.optional.default(nil)
-    attribute :itunes_explicit, Types::Bool.optional.default(nil)
-    #attribute :itunes_author,   Types::Coercible::String.optional
-    #attribute :itunes_subtitle, Types::Coercible::String
-    attribute :itunes_image,    Types::Coercible::String.optional.default(nil)
-    attribute :media_url,       Types::Coercible::String
-    attribute :media_size,      Types::Coercible::Integer
-    attribute :media_type,      Types::Coercible::String.default('audio/mpeg')
+    transform_keys(&:to_sym)
+
+    attribute :title,               Types::Coercible::String
+    attribute :link,                Types::Coercible::String.optional.default(nil)
+    attribute :guid,                Types::Coercible::String.optional.default(nil)
+    attribute :pub_date,            Types::Params::Time.optional.default(nil)
+    attribute :description,         Types::Coercible::String.optional.default(nil)
+    attribute :itunes_duration,     Types::Coercible::Integer.optional.default(nil)
+    attribute :itunes_explicit,     Types::Bool.optional.default(nil)
+    #attribute :itunes_author,       Types::Coercible::String.optional
+    #attribute :itunes_subtitle,     Types::Coercible::String
+    attribute :itunes_image,        Types::Coercible::String.optional.default(nil)
+    attribute :itunes_episode,      Types::Coercible::Integer.optional.default(nil)
+    attribute :itunes_season,       Types::Coercible::Integer.optional.default(nil)
+    attribute :itunes_episode_type, Types::Coercible::String.enum('Full', 'Trailer', 'Bonus').optional.default(nil)
+    attribute :media_url,           Types::Coercible::String
+    attribute :media_size,          Types::Coercible::Integer
+    attribute :media_type,          Types::Coercible::String.default('audio/mpeg')
   end
 
   class Channel < Dry::Struct
+    transform_keys(&:to_sym)
+
     attribute :title,               Types::Coercible::String
     attribute :link,                Types::Coercible::String.optional.default(nil)
     attribute :description,         Types::Coercible::String
@@ -108,16 +115,19 @@ module PodcastRss
                 xml.link        episode.link
                 xml.guid        episode.guid
                 xml.description { xml.cdata episode.description }
-                # TODO: Needs timezone
-                xml.pubDate     episode.pub_date.strftime('%a, %d %b %Y %T ')
+                # TODO: Properly deal with timezones
+                xml.pubDate     episode.pub_date.getutc.strftime('%a, %d %b %Y %T %z')
 
                 xml.enclosure url:    episode.media_url,
                               length: episode.media_size,
                               type:   episode.media_type
 
-                xml['itunes'].duration episode.itunes_duration if episode.itunes_duration
-                xml['itunes'].explicit episode.itunes_explicit unless episode.itunes_explicit.nil?
-                xml['itunes'].image    href: episode.itunes_image if episode.itunes_image
+                xml['itunes'].episode     episode.itunes_episode if episode.itunes_episode
+                xml['itunes'].season      episode.itunes_season if episode.itunes_season
+                xml['itunes'].episodeType episode.itunes_episode_type if episode.itunes_episode_type
+                xml['itunes'].duration    episode.itunes_duration if episode.itunes_duration
+                xml['itunes'].explicit    episode.itunes_explicit unless episode.itunes_explicit.nil?
+                xml['itunes'].image       href: episode.itunes_image if episode.itunes_image
               end
             end
           end
